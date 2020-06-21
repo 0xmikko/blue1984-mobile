@@ -5,9 +5,7 @@
 
 This anti-censorship app for twitter was designed from scratch especially for Bluzelle hackathon.
 
-Official site: https://blue1984.herokuapp.com/
-
-Video demo: https://youtu.be/O3uLL3kWXAY
+Find more information, backend & mobile apps: https://github.com/MikaelLazarev/blue1984-server
 
 ## Mobile app
 
@@ -25,15 +23,17 @@ Twitter scrapper microservice: https://github.com/MikaelLazarev/blue1984-scrappe
 
 ## How to install
 
-1. Clone this chat: 
+1. Clone this repository: ```git clone```
 2. Install node dependencies with ```yarn``` or ```npm i```
-3. Open ./config.ts and provide server address. For local start, please provide you local network address instead localhost:
+3. Open ./config.ts and provide server address. 
+If you start this app locally, please provide real network address (like 192.168.0.35) instead localhost:
 ```
 export const BACKEND_ADDR = 'http://192.168.0.47:4000';
 ```
-4. Go to ./mobile/ios and install ios modules with ```pod install```
-5. Run iOS app with ```yarn ios``` or ```npm start ios```
-6. Run Android app with ```yarn android``` or ```npm run android```
+4. Go to ./ios folder: ```cd ios```
+5. Install ios dependencies with ```pod install```
+6. Run iOS app with ```yarn ios``` or ```npm start ios```
+7. Run Android app with ```yarn android``` or ```npm run android```
 
 ## Disclaimer
 
