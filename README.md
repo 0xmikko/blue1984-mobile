@@ -15,13 +15,13 @@ Video demo: https://youtu.be/O3uLL3kWXAY
 
 ## Project repostories
 
-Server: https://github.com/MikaelLazarev/blu1984 (main folder)
+Server: https://github.com/MikaelLazarev/blu1984 (core repository)
 
-Mobile apps: https://github.com/MikaelLazarev/blu1984 ('/mobile' folder)
+Mobile apps: https://github.com/MikaelLazarev/blue1984-mobile
 
-Front-end: https://github.com/MikaelLazarev/blue1984
+Front-end: https://github.com/MikaelLazarev/blue1984-web
 
-Python microservice for twitter scrapping: https://github.com/MikaelLazarev/blue1984-ts
+Twitter scrapper microservice: https://github.com/MikaelLazarev/blue1984-scrapper
 
 ## How to install
 
