@@ -29,8 +29,7 @@ export const updateOperationStatusByAction = (
     return updateStatus(
       opHash || '0',
       STATUS.FAILURE,
-      //@ts-ignore
-      action === undefined ? 'Network error' : action.payload.response.error,
+      action?.payload?.response?.error ||  'Network error'
     );
   }
   return updateStatus(opHash || '0', STATUS.SUCCESS);

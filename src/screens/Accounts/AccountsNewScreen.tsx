@@ -101,7 +101,7 @@ export const AccountsNewScreen: React.FC = () => {
               marginTop: 55,
               marginBottom: 15,
             }}>
-          Enter valid Twitter account
+          Enter a valid Twitter account
         </Text>
         <FormView data={data} onSubmit={onSubmit} isSubmitted={isSubmitted} />
       </SafeAreaView>

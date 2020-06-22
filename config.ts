@@ -7,5 +7,5 @@
  */
 
 export const BACKEND_ADDR =
-  __DEV__ ? "https://blu1984.herokuapp.com"
-    : "https://blu1984.herokuapp.com";
+  __DEV__ ? "http://localhost:4000"
+    : "http://localhost:4000";

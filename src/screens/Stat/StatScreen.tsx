@@ -10,11 +10,10 @@ import {
 import {Button, Text} from 'react-native-elements';
 import {useDispatch, useSelector} from 'react-redux';
 import actions from '../../store/actions';
-import {LineChart} from 'react-native-chart-kit';
 import {RootState} from '../../store';
-import {GraphItem} from '../../containers/Stat/GraphItem';
+import {GraphItem, GraphItemProps} from '../../containers/Stat/GraphItem';
 import Loading from '../../components/Loading';
-import { useNavigation } from '@react-navigation/native';
+import {Graph} from "../../core/stat";
 
 interface Parameters {
   name: string,
@@ -29,13 +28,11 @@ export const StatScreen: React.FC = () => {
     dispatch(actions.stat.getList());
   }, []);
 
-  const {data, status} = useSelector((state: RootState) => state.stat.List);
+  const data = useSelector((state: RootState) => state.stat.List.data) as unknown as Record<string, Graph>;
 
   const onStart = () => {
     dispatch(
-      actions.profile.updateProfile({
-        status: 'NEW',
-      }),
+      actions.profile.clearProfile()
     );
   };
 

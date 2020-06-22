@@ -31,6 +31,13 @@ const addAccountAction = createDataLoaderCreateUpdateDataAction(
   ACCOUNTS_PREFIX
 );
 
+interface addNewAccountReturn {
+  payload: {
+    id: string;
+  };
+  error: object;
+}
+
 export const addNewAccount = (
   id: string,
   hash: string
@@ -38,16 +45,20 @@ export const addNewAccount = (
   dispatch
 ) => {
 
-  const action = await dispatch(addAccountAction("new", { id }, hash));
-  const savedAccounts = await getAccountsFromStorage();
-  let accountsList = new Set([id,
-    ...savedAccounts
-  ]);
+  const action = await dispatch(addAccountAction("new", { id }, hash)) as unknown as addNewAccountReturn;
+  if (action !== undefined && !action.error) {
+    const savedAccounts = await getAccountsFromStorage();
+    let accountsList = new Set([action.payload.id,
+      ...savedAccounts
+    ]);
 
-  await AsyncStorage.setItem(
-    "accounts",
-    JSON.stringify(Array.from(accountsList.values()))
-  );
+    await AsyncStorage.setItem(
+        "accounts",
+        JSON.stringify(Array.from(accountsList.values()))
+    );
+  }
+
+  dispatch(getList(hash));
 };
 
 export const getList = (

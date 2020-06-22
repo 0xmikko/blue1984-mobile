@@ -23,7 +23,7 @@ import {RouteProp, useRoute} from '@react-navigation/native';
 
 type ContactDetailsScreenRouteProp = RouteProp<
     AccountsStackParamList,
-    'AccountsDetailsScreen'
+    'AccountDetailsScreen'
     >;
 
 export const AccountsDetailsScreen: React.FC = () => {

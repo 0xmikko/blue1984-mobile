@@ -13,7 +13,7 @@ Find more information, backend & mobile apps: https://github.com/MikaelLazarev/b
 
 ## Project repostories
 
-Server: https://github.com/MikaelLazarev/blu1984 (core repository)
+Server: https://github.com/MikaelLazarev/blue1984-server (core repository)
 
 Mobile apps: https://github.com/MikaelLazarev/blue1984-mobile
 
@@ -23,7 +23,7 @@ Twitter scrapper microservice: https://github.com/MikaelLazarev/blue1984-scrappe
 
 ## How to install
 
-1. Clone this repository: ```git clone```
+1. Clone this repository: ```git clone git@github.com:MikaelLazarev/blue1984-mobile.git```
 2. Install node dependencies with ```yarn``` or ```npm i```
 3. Open ./config.ts and provide server address. 
 If you start this app locally, please provide real network address (like 192.168.0.35) instead localhost:

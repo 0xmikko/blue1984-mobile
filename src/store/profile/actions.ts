@@ -41,3 +41,14 @@ export const updateProfile = (
   });
 };
 
+export const clearProfile = (
+
+): ThunkAction<void, RootState, unknown, Action<string>> => async dispatch => {
+  const profile = {status: 'NEW',}
+  await AsyncStorage.clear();
+  await AsyncStorage.setItem("profile", JSON.stringify(profile));
+  dispatch({
+    type: 'PROFILE_SUCCESS',
+    payload: profile,
+  });
+}

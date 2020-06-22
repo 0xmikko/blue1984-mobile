@@ -15,5 +15,6 @@ interface TweetsFeedWidgetProps {
 }
 
 export const TweetsFeedWidget: React.FC<TweetsFeedWidgetProps> = ({ data }) => {
+
   return data.map((elm) => <TweetWidget data={elm} key={elm.id} />)
 };

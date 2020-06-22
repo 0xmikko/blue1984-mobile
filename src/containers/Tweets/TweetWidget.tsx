@@ -9,18 +9,10 @@
 import React from 'react';
 import {Tweet} from '../../core/tweet';
 
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  TouchableHighlight,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, View, Text, Image, TouchableOpacity, Alert, Linking} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import Entypo from 'react-native-vector-icons/Entypo';
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import {toHumanDate} from '../../utils/formaters';
+import Hyperlink from 'react-native-hyperlink';
 
 interface TweetWidgetProps {
   data: Tweet;
@@ -31,137 +23,162 @@ export const TweetWidget: React.FC<TweetWidgetProps> = ({data}) => {
   if (data.wasChanged) backColor = '#b3b37b';
   if (data.wasDeleted) backColor = '#fda7a7';
 
+  const alert = (url: string, text: string) => {
+    Alert.alert(
+        'Open link?',
+        url,
+        [
+          {
+            text: 'Open in browser',
+            onPress: () => Linking.openURL(url)
+          },
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel'
+          },
+        ],
+        { cancelable: false }
+    );
+  };
+
   return (
-      <View
-        key={data.id}
-        style={{...styles.container, backgroundColor: backColor}}>
-        {!data.isReplyTo ? (
-          <View style={styles.isReplyContainer}>
-            <View
-              style={{
-                flex: 0.23,
-                borderColor: 'red',
-                borderWidth: 0,
-                alignItems: 'flex-end',
-              }}>
-              <EvilIcons
-                name={'retweet'}
-                size={25}
-                color={'rgb(136, 153, 166)'}
-              />
-            </View>
-            <Text style={{flex: 0.5, color: 'rgb(136, 153, 166)'}}>
-              {data.isRetweet} Retweeted
+    <View
+      key={data.id}
+      style={{...styles.container, backgroundColor: backColor}}>
+      {!data.isReplyTo ? (
+        <View style={styles.isReplyContainer}>
+          <View
+            style={{
+              flex: 0.23,
+              borderColor: 'red',
+              borderWidth: 0,
+              alignItems: 'flex-end',
+            }}>
+            <EvilIcons
+              name={'retweet'}
+              size={25}
+              color={'rgb(136, 153, 166)'}
+            />
+          </View>
+          <Text style={{flex: 0.5, color: 'rgb(136, 153, 166)'}}>
+            {data.isRetweet} Retweeted
+          </Text>
+        </View>
+      ) : (
+        true
+      )}
+      <View style={styles.innerContainer}>
+        <View style={styles.photoContainer}>
+          <View style={styles.innerPhotoContainer}>
+            <TouchableOpacity
+
+            // onPress={() => navigation.navigate('Profile')}
+            >
+              <Image source={{uri: data.user?.avatar}} style={styles.photo} />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.info}>
+          <View style={styles.userDetails}>
+            <Text style={styles.userName}>
+              {data.user?.name}
+              <Text style={styles.userHandleAndTime}>
+                {' @' + data.screenName} · {toHumanDate(data.time)}
+              </Text>
             </Text>
           </View>
-        ) : (
-          true
-        )}
-        <View style={styles.innerContainer}>
-          <View style={styles.photoContainer}>
-            <View style={styles.innerPhotoContainer}>
-              <TouchableOpacity
 
-              // onPress={() => navigation.navigate('Profile')}
-              >
-                <Image source={{uri: data.user?.avatar}} style={styles.photo} />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={styles.info}>
-            <View style={styles.userDetails}>
-              <Text style={styles.userName}>
-                {data.user?.name}
-                <Text style={styles.userHandleAndTime}>
-                  {' @' + data.screenName} · {toHumanDate(data.time)}
-                </Text>
-              </Text>
-            </View>
-            <View style={styles.tweetTextContainer}>
+          <View style={styles.tweetTextContainer}>
+            <Hyperlink
+              onPress={(url, text) => alert(url, text)}
+              linkStyle={{color: '#2980b9'}}>
               <Text style={styles.tweetText}>{data.text}</Text>
-            </View>
-            <View style={styles.tweetActionsContainer}>
-              <TouchableOpacity style={styles.commentButton}>
-                <EvilIcons
-                  name={'comment'}
-                  style={styles.commentButtonIcon}
-                  size={25}
-                  color={'rgb(136, 153, 166)'}
-                />
-                <Text style={styles.commentsCount}>20</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                // onPress={()=> this.retweet()}
-                style={styles.retweetButton}>
-                <EvilIcons
-                  name={'retweet'}
-                  size={25}
-                  color={
-                    data.isRetweet ? 'rgb(23, 191, 99)' : 'rgb(136, 153, 166)'
-                  }
-                />
-                <Text
-                  style={[
-                    styles.retweetButtonIcon,
-                    {
-                      color: data.isRetweet
-                        ? 'rgb(23, 191, 99)'
-                        : 'rgb(136, 153, 166)',
-                      fontWeight: data.isRetweet ? 'bold' : '300',
-                    },
-                  ]}>
-                  {data.retweetCount}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                // onPress={()=> this.like()}
-                style={styles.likeButton}>
-                {data.favoriteCount ? (
-                  <Entypo
-                    name={'heart'}
-                    size={18}
-                    style={{marginLeft: 4}}
-                    color={
-                      data.favoriteCount
-                        ? 'rgb(224, 36, 94)'
-                        : 'rgb(136, 153, 166)'
-                    }
-                  />
-                ) : (
-                  <EvilIcons
-                    name={'heart'}
-                    size={25}
-                    color={
-                      data.favoriteCount
-                        ? 'rgb(224, 36, 94)'
-                        : 'rgb(136, 153, 166)'
-                    }
-                  />
-                )}
-                <Text
-                  style={[
-                    styles.likeButtonIcon,
-                    {
-                      color: data.favoriteCount
-                        ? 'rgb(224, 36, 94)'
-                        : 'rgb(136, 153, 166)',
-                      fontWeight: data.favoriteCount ? 'bold' : '300',
-                    },
-                  ]}>
-                  {data.favoriteCount}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.shareButton}>
-                <SimpleLineIcons
-                  name={'share'}
-                  size={16}
-                  color={'rgb(136, 153, 166)'}
-                />
-              </TouchableOpacity>
-            </View>
+            </Hyperlink>
+          </View>
+
+          <View style={styles.tweetActionsContainer}>
+            {/*<TouchableOpacity style={styles.commentButton}>*/}
+            {/*  <EvilIcons*/}
+            {/*    name={'comment'}*/}
+            {/*    style={styles.commentButtonIcon}*/}
+            {/*    size={25}*/}
+            {/*    color={'rgb(136, 153, 166)'}*/}
+            {/*  />*/}
+            {/*  <Text style={styles.commentsCount}>20</Text>*/}
+            {/*</TouchableOpacity>*/}
+            {/*<TouchableOpacity*/}
+            {/*  // onPress={()=> this.retweet()}*/}
+            {/*  style={styles.retweetButton}>*/}
+            {/*  <EvilIcons*/}
+            {/*    name={'retweet'}*/}
+            {/*    size={25}*/}
+            {/*    color={*/}
+            {/*      data.isRetweet ? 'rgb(23, 191, 99)' : 'rgb(136, 153, 166)'*/}
+            {/*    }*/}
+            {/*  />*/}
+            {/*  <Text*/}
+            {/*    style={[*/}
+            {/*      styles.retweetButtonIcon,*/}
+            {/*      {*/}
+            {/*        color: data.isRetweet*/}
+            {/*          ? 'rgb(23, 191, 99)'*/}
+            {/*          : 'rgb(136, 153, 166)',*/}
+            {/*        fontWeight: data.isRetweet ? 'bold' : '300',*/}
+            {/*      },*/}
+            {/*    ]}>*/}
+            {/*    {data.retweetCount}*/}
+            {/*  </Text>*/}
+            {/*</TouchableOpacity>*/}
+            {/*<TouchableOpacity*/}
+            {/*  // onPress={()=> this.like()}*/}
+            {/*  style={styles.likeButton}>*/}
+            {/*  {data.favoriteCount ? (*/}
+            {/*    <Entypo*/}
+            {/*      name={'heart'}*/}
+            {/*      size={18}*/}
+            {/*      style={{marginLeft: 4}}*/}
+            {/*      color={*/}
+            {/*        data.favoriteCount*/}
+            {/*          ? 'rgb(224, 36, 94)'*/}
+            {/*          : 'rgb(136, 153, 166)'*/}
+            {/*      }*/}
+            {/*    />*/}
+            {/*  ) : (*/}
+            {/*    <EvilIcons*/}
+            {/*      name={'heart'}*/}
+            {/*      size={25}*/}
+            {/*      color={*/}
+            {/*        data.favoriteCount*/}
+            {/*          ? 'rgb(224, 36, 94)'*/}
+            {/*          : 'rgb(136, 153, 166)'*/}
+            {/*      }*/}
+            {/*    />*/}
+            {/*  )}*/}
+            {/*  <Text*/}
+            {/*    style={[*/}
+            {/*      styles.likeButtonIcon,*/}
+            {/*      {*/}
+            {/*        color: data.favoriteCount*/}
+            {/*          ? 'rgb(224, 36, 94)'*/}
+            {/*          : 'rgb(136, 153, 166)',*/}
+            {/*        fontWeight: data.favoriteCount ? 'bold' : '300',*/}
+            {/*      },*/}
+            {/*    ]}>*/}
+            {/*    {data.favoriteCount}*/}
+            {/*  </Text>*/}
+            {/*</TouchableOpacity>*/}
+            {/*<TouchableOpacity style={styles.shareButton}>*/}
+            {/*  <SimpleLineIcons*/}
+            {/*    name={'share'}*/}
+            {/*    size={16}*/}
+            {/*    color={'rgb(136, 153, 166)'}*/}
+            {/*  />*/}
+            {/*</TouchableOpacity>*/}
           </View>
         </View>
       </View>
+    </View>
   );
 };
 const styles = StyleSheet.create({

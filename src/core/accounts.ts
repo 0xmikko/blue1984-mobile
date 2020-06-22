@@ -1,4 +1,4 @@
-import {Tweet} from "../../../src/core/tweet";
+import {Tweet} from "./tweet";
 
 export interface Account {
   id: string;

@@ -26,8 +26,6 @@ export const AccountCard: React.FC<AccountCardProps> = ({
 }) => {
   const title = data.name;
 
-  console.log("TITLKE", title)
-
   return (
     <TouchableOpacity onPress={() => selectAccount(data.id.toString())}>
       <View style={styles.container}>
@@ -43,7 +41,7 @@ export const AccountCard: React.FC<AccountCardProps> = ({
         <View style={styles.textContainer}>
           <View>
             <Text h4>{title}</Text>
-            <Text>{`Cached: ${data.cached || '-'} Changed: ${data.changed || '-'} Deleted: ${data.deleted || '-'}`}</Text>
+            <Text>{`Cached: ${data.cached || '-'}  Deleted: ${data.deleted || '-'}`}</Text>
           </View>
         </View>
       </View>

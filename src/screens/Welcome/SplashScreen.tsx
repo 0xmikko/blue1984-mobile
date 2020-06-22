@@ -36,13 +36,7 @@ export const SplashScreen: React.FC = () => {
       <View style={styles.button}>
         <Button onPress={onStart} title={'Break the wall'} buttonStyle={styles.buttonS}/>
       </View>
-      <View style={styles.button2}>
-        <Button
-          onPress={onStart}
-          title={'Take a tour'}
-          buttonStyle={styles.buttonS}
-        />
-      </View>
+
     </SafeAreaView>
   );
 };
@@ -59,10 +53,7 @@ const styles = StyleSheet.create({
     width: '80%',
     paddingTop: 50,
   },
-  button2: {
-    width: '80%',
-    paddingTop: 20,
-  },
+
 
   buttonS: {
     borderRadius: 5,
