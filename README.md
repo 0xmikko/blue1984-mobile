@@ -24,16 +24,17 @@ Twitter scrapper microservice: https://github.com/MikaelLazarev/blue1984-scrappe
 ## How to install
 
 1. Clone this repository: ```git clone git@github.com:MikaelLazarev/blue1984-mobile.git```
-2. Install node dependencies with ```yarn``` or ```npm i```
-3. Open ./config.ts and provide server address. 
+2. Go to folder: ```cd blue1984-mobile```
+3. Install node dependencies with ```yarn``` or ```npm i```
+4. Open ./config.ts and provide server address. 
 If you start this app locally, please provide real network address (like 192.168.0.35) instead localhost:
 ```
 export const BACKEND_ADDR = 'http://192.168.0.47:4000';
 ```
-4. Go to ./ios folder: ```cd ios```
-5. Install ios dependencies with ```pod install```
-6. Run iOS app with ```yarn ios``` or ```npm start ios```
-7. Run Android app with ```yarn android``` or ```npm run android```
+5. Go to ./ios folder: ```cd ios```
+6. Install ios dependencies with ```pod install```
+7. Run iOS app with ```yarn ios``` or ```npm start ios```
+8. Run Android app with ```yarn android``` or ```npm run android```
 
 ## Disclaimer
 
