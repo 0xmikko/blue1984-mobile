@@ -15,7 +15,6 @@ export const InfoTab: React.FC<InfoTabProps> = ({ data, filter }) => {
   return (
       <>
         <TweetsFeedWidget data={data.tweets?.filter(wFiler) || []} />
-        <InfoWidget data={data} />
         </>
   );
 };

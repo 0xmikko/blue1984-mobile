@@ -15,4 +15,5 @@ export type ProfileActions =
       payload?: Profile;
       error?: boolean;
     }
-  | {type: 'PROFILE_UPDATE_STATUS'; status: ProfileStatus};
+  | {type: 'PROFILE_UPDATE_STATUS'; status: ProfileStatus}
+  | {type: 'PROFILE_DELETED_MESSAGES'; payload: boolean};

@@ -23,27 +23,30 @@ export const TweetWidget: React.FC<TweetWidgetProps> = ({data}) => {
   if (data.wasChanged) backColor = '#b3b37b';
   if (data.wasDeleted) backColor = '#fda7a7';
 
-  const alert = (url: string, text: string) => {
+  const alert = () => {
 
-    const linksButtons =  data.urls.map(url => (
+    const combinedUrls = new Set<string>();
+    data.urls.forEach(e=> combinedUrls.add(e))
+    data.images.forEach(e=> combinedUrls.add(e));
+    const linksButtons =  Array.from(combinedUrls).map(url => (
       {
         text: url,
             onPress: () => Linking.openURL(url)
       })
     )
     Alert.alert(
-        'Open link?',
-        "Select link would you like to open",
+      'Open link',
+      'Select link would you like to open',
 
-        [
-            ...linksButtons,
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel'
-          },
-        ],
-        { cancelable: false }
+      [
+        ...linksButtons,
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ],
+      {cancelable: false},
     );
   };
 
@@ -96,7 +99,7 @@ export const TweetWidget: React.FC<TweetWidgetProps> = ({data}) => {
 
           <View style={styles.tweetTextContainer}>
             <Hyperlink
-              onPress={(url, text) => alert(url, text)}
+              onPress={alert}
               linkStyle={{color: '#2980b9'}}>
               <Text style={styles.tweetText}>{data.text}</Text>
             </Hyperlink>

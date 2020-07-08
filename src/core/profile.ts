@@ -11,6 +11,7 @@ export type ProfileStatus =  "NEW" | "READY";
 export interface Profile {
     id?: string,
     status: ProfileStatus,
+    showDeletedTweets: boolean,
 }
 
 

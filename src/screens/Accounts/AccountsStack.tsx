@@ -9,9 +9,11 @@ import React from 'react';
 import {Button} from 'react-native-elements';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
-import {AccountsListScreen} from "./AccountsListScreen";
-import {AccountsDetailsScreen} from "./AccountsDetailsScreen";
-import {AccountsNewScreen} from "./AccountsNewScreen";
+import {AccountsListScreen} from './AccountsListScreen';
+import {AccountsDetailsScreen} from './AccountsDetailsScreen';
+import {AccountsNewScreen} from './AccountsNewScreen';
+import {showDeletedFilterModal} from '../../containers/Tweets/DeletedTweetsModal';
+import {useDispatch} from 'react-redux';
 
 const Stack = createStackNavigator();
 
@@ -21,6 +23,7 @@ export type AccountsStackParamList = {
 
 export const AccountsStack: React.FC = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   return (
     <Stack.Navigator>
@@ -28,16 +31,6 @@ export const AccountsStack: React.FC = () => {
         name="AccountsList"
         component={AccountsListScreen}
         options={{
-          headerLeft: () => (
-            <Button
-              // onPress={navigation.getParam('toggleDrawer')}
-              icon={{
-                name: 'menu',
-                size: 22,
-              }}
-              type="clear"
-            />
-          ),
           title: 'Accounts',
           headerRight: () => (
             <Button
@@ -51,7 +44,23 @@ export const AccountsStack: React.FC = () => {
           ),
         }}
       />
-      <Stack.Screen name="AccountDetails" component={AccountsDetailsScreen} />
+      <Stack.Screen
+        name="AccountDetails"
+        component={AccountsDetailsScreen}
+        options={{
+          headerRight: () => (
+            <Button
+              onPress={() => showDeletedFilterModal(dispatch)}
+              icon={{
+                name: 'settings',
+                size: 22,
+                  color: "#0674eb"
+              }}
+              type="clear"
+            />
+          ),
+        }}
+      />
       <Stack.Screen
         name="AccountNew"
         component={AccountsNewScreen}

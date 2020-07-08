@@ -23,10 +23,9 @@ import {AccountsStack} from './Accounts/AccountsStack';
 import {useDispatch, useSelector} from 'react-redux';
 import actions from '../store/actions';
 import {RootState} from '../store';
-import {SplashScreen} from './Welcome/SplashScreen';
-import {TweetsFeedScreen} from './Tweets/TweetsFeedScreen';
 import {StatStack} from "./Stat/StatStack";
 import {WelcomeStack} from "./Welcome/WelcomeStack";
+import {FeedStack} from "./Tweets/FeedStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -71,7 +70,7 @@ export const Router = () => {
             activeTintColor: '#0176f4',
             inactiveTintColor: 'gray',
           }}>
-          <Tab.Screen name="Feed" component={TweetsFeedScreen} />
+          <Tab.Screen name="Feed" component={FeedStack} />
           <Tab.Screen name="Accounts" component={AccountsStack} />
           <Tab.Screen name="Stat" component={StatStack} />
         </Tab.Navigator>

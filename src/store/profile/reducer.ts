@@ -13,6 +13,7 @@ export interface ProfileState extends Profile {}
 
 const initialState: ProfileState = {
   status: "NEW",
+  showDeletedTweets: false,
 };
 
 export default function createReducer(
@@ -25,6 +26,12 @@ export default function createReducer(
       return state;
     case "PROFILE_SUCCESS":
       return action?.payload ? action.payload : state;
+    case "PROFILE_DELETED_MESSAGES":
+      return {
+        ...state,
+        showDeletedTweets: action.payload
+      };
+
   }
 
   return state;

@@ -11,18 +11,22 @@ import {RootState} from '../index';
 import {Action} from 'redux';
 import {Profile} from '../../core/profile';
 import AsyncStorage from '@react-native-community/async-storage';
+import {ProfileActions} from './index';
 
 // Get user profile from server
-export const getProfile = (): ThunkAction<void, RootState, unknown, Action<string>> => async dispatch => {
-  const profileStr = await AsyncStorage.getItem("profile");
-  if ((profileStr) === null) {
+export const getProfile = (): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  Action<string>
+> => async (dispatch) => {
+  const profileStr = await AsyncStorage.getItem('profile');
+  if (profileStr === null) {
     dispatch({
       type: 'PROFILE_SUCCESS',
-      payload: {status: 'NEW',
-        accounts: [],}
-
-    })
-    return
+      payload: {status: 'NEW', accounts: []},
+    });
+    return;
   }
   dispatch({
     type: 'PROFILE_SUCCESS',
@@ -30,25 +34,36 @@ export const getProfile = (): ThunkAction<void, RootState, unknown, Action<strin
   });
 };
 
-
 export const updateProfile = (
   profile: Profile,
-): ThunkAction<void, RootState, unknown, Action<string>> => async dispatch => {
-  await AsyncStorage.setItem("profile", JSON.stringify(profile));
+): ThunkAction<void, RootState, unknown, Action<string>> => async (
+  dispatch,
+) => {
+  await AsyncStorage.setItem('profile', JSON.stringify(profile));
   dispatch({
     type: 'PROFILE_SUCCESS',
     payload: profile,
   });
 };
 
-export const clearProfile = (
+export const setShowDeletedMessagesFilter = (
+  show: boolean,
+): ProfileActions => ({
+  type: 'PROFILE_DELETED_MESSAGES',
+  payload: show,
+});
 
-): ThunkAction<void, RootState, unknown, Action<string>> => async dispatch => {
-  const profile = {status: 'NEW',}
+export const clearProfile = (): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  Action<string>
+> => async (dispatch) => {
+  const profile = {status: 'NEW'};
   await AsyncStorage.clear();
-  await AsyncStorage.setItem("profile", JSON.stringify(profile));
+  await AsyncStorage.setItem('profile', JSON.stringify(profile));
   dispatch({
     type: 'PROFILE_SUCCESS',
     payload: profile,
   });
-}
+};

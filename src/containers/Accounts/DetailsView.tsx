@@ -6,12 +6,12 @@
  *
  */
 
-import React from "react";
+import React from 'react';
 
-import { Account } from "../../core/accounts";
+import {Account} from '../../core/accounts';
 // import {TotalBar} from '../Bonds/TotalBar';
 
-import {InfoTab} from "./InfoTab";
+import {InfoTab} from './InfoTab';
 
 interface AccountDetailsProps {
   data: Account;
@@ -20,12 +20,5 @@ interface AccountDetailsProps {
 export const DetailsView: React.FC<AccountDetailsProps> = ({
   data,
 }: AccountDetailsProps) => {
-  const tabs: string[] = ["Feed", "Changed", "Deleted"];
-
-  return (<>
-          <InfoTab data={data} />
-          <InfoTab data={data} filter={(e) => e.wasChanged}/>
-          <InfoTab data={data} filter={(e) => e.wasDeleted}/>
-          </>
-  );
+  return <InfoTab data={data} />;
 };
