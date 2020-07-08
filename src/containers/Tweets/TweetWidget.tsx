@@ -24,14 +24,19 @@ export const TweetWidget: React.FC<TweetWidgetProps> = ({data}) => {
   if (data.wasDeleted) backColor = '#fda7a7';
 
   const alert = (url: string, text: string) => {
+
+    const linksButtons =  data.urls.map(url => (
+      {
+        text: url,
+            onPress: () => Linking.openURL(url)
+      })
+    )
     Alert.alert(
         'Open link?',
-        url,
+        "Select link would you like to open",
+
         [
-          {
-            text: 'Open in browser',
-            onPress: () => Linking.openURL(url)
-          },
+            ...linksButtons,
           {
             text: 'Cancel',
             onPress: () => console.log('Cancel Pressed'),

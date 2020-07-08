@@ -1,7 +1,7 @@
-interface URL {
-  indices: number[];
-  url: string;
-}
+// interface URL {
+//   indices: number[];
+//   url: string;
+// }
 
 interface User {
   avatar: string,
@@ -18,7 +18,7 @@ export interface Tweet {
   isPinned: boolean;
   isReplyTo: boolean;
   isRetweet: boolean;
-  urls: URL[];
+  urls: string[];
   hashtags: string[];
   images: string[];
   favoriteCount: number;
