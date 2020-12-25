@@ -1,32 +1,23 @@
 /*
- * Lean tool - hypothesis testing application
- *
- * https://github.com/MikaelLazarev/lean-tool/
- * Copyright (c) 2020. Mikhail Lazarev
- *
+ * Copyright (c) 2020. Mikael Lazarev
  */
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {TweetsList} from '../../containers/Tweets/ListView';
-import {RootState} from '../../store';
 import actions from '../../store/actions';
-import {DataScreen} from '../../components/DataScreen';
 import {useNavigation} from '@react-navigation/native';
+import {tweetsListSelector} from "../../store/tweets";
+import {DataListView} from 'rn-mobile-components';
+import {TweetWidget} from "../../containers/Tweets/TweetWidget";
 
-export const TweetsFeedScreen: React.FC = () => {
+export function TweetsFeedScreen() : React.ReactElement {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [hash, setHash] = useState('0');
 
-  useEffect(() => {
-    const newHash = Date.now().toString();
-    setHash(newHash);
-    dispatch(actions.tweets.getFeed(newHash));
-  }, []);
+  const getList = (opHash: string) =>  dispatch(actions.tweets.getFeed(opHash));
 
-  const {data, status} = useSelector((state: RootState) => state.tweets.List);
+  const data = useSelector(tweetsListSelector);
 
   return (
-      <DataScreen data={data} status={status} component={TweetsList} />
+      <DataListView data={data} getList={getList} renderItem={TweetWidget} onSelect={(id) => {}}/>
   );
 };

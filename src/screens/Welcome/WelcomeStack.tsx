@@ -1,8 +1,5 @@
 /*
- *  Buzz Chat - Spam-free decentralized chat
- *
- *  https://github.com/MikaelLazarev/buzzchat
- *  Copyright (c) 2020. Mikhail Lazarev
+ * Copyright (c) 2020. Mikael Lazarev
  */
 
 import React from 'react';
@@ -11,18 +8,16 @@ import {SplashScreen} from './SplashScreen';
 
 const Stack = createStackNavigator();
 
-export const WelcomeStack: React.FC = () => {
+export function WelcomeStack(): React.ReactElement {
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="SplashScreen"
         component={SplashScreen}
         options={{
-          header: () => {
-            visible: false;
-          },
+          headerShown: false,
         }}
       />
     </Stack.Navigator>
   );
-};
+}

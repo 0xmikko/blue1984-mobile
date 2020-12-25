@@ -1,37 +1,27 @@
 /*
- * Lean tool - hypothesis testing application
- *
- * https://github.com/MikaelLazarev/lean-tool/
- * Copyright (c) 2020. Mikhail Lazarev
- *
+ * Copyright (c) 2020. Mikael Lazarev
  */
 
-import { Profile } from "../../core/profile";
-import { ProfileActions } from "./";
+import {Profile} from '../../core/profile';
+import {ProfileActions} from './';
 
 export interface ProfileState extends Profile {}
 
 const initialState: ProfileState = {
-  status: "NEW",
+  status: 'NEW',
   showDeletedTweets: false,
 };
 
 export default function createReducer(
   state: ProfileState = initialState,
-  action: ProfileActions
+  action: ProfileActions,
 ): ProfileState {
   switch (action.type) {
     default:
-    case "PROFILE_REQUEST":
+    case 'PROFILE_REQUEST':
       return state;
-    case "PROFILE_SUCCESS":
+    case 'PROFILE_SUCCESS':
       return action?.payload ? action.payload : state;
-    case "PROFILE_DELETED_MESSAGES":
-      return {
-        ...state,
-        showDeletedTweets: action.payload
-      };
-
   }
 
   return state;

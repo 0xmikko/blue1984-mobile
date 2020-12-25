@@ -1,9 +1,5 @@
 /*
- * Lean tool - hypothesis testing application
- *
- * https://github.com/MikaelLazarev/lean-tool/
- * Copyright (c) 2020. Mikhail Lazarev
- *
+ * Copyright (c) 2020. Mikael Lazarev
  */
 import React, {useEffect, useState} from 'react';
 import {Text} from 'react-native-elements';
@@ -18,24 +14,23 @@ import {Account, AccountCreateDTO} from '../../core/accounts';
 import actions from '../../store/actions';
 import {useNavigation} from '@react-navigation/native';
 import {Alert, SafeAreaView, StyleSheet} from 'react-native';
+import {operationSelector} from "dlt-operations";
 
-export const AccountsNewScreen: React.FC = () => {
+export function AccountsNewScreen() : React.ReactElement {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [hash, setHash] = useState('0');
   const [waitForList, setWaitForList] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const operationStatus = useSelector(
-      (state: RootState) => state.operations.data[hash]?.data,
-  );
+  const operation = useSelector(operationSelector(hash));
 
   // TODO: Move status to new Dataloader component
 
   useEffect(() => {
     if (hash !== '0' && !waitForList) {
-      switch (operationStatus?.status) {
-        case STATUS.SUCCESS:
+      switch (operation?.status) {
+        case 'STATUS.SUCCESS':
           const newHash = Date.now().toString();
           setHash(newHash);
 
@@ -44,12 +39,12 @@ export const AccountsNewScreen: React.FC = () => {
 
           break;
 
-        case STATUS.FAILURE:
+        case 'STATUS.FAILURE':
           setHash('0');
           setIsSubmitted(false);
           Alert.alert(
               'Cant add account',
-              operationStatus.error || 'Network error',
+              operation.error || 'Network error',
               [{text: 'OK', onPress: () => console.log('OK Pressed')}],
               {cancelable: false},
           );
@@ -58,26 +53,26 @@ export const AccountsNewScreen: React.FC = () => {
     }
 
     if (hash !== '0' && waitForList) {
-      switch (operationStatus?.status) {
-        case STATUS.SUCCESS:
+      switch (operation?.status) {
+        case 'STATUS.SUCCESS':
           setHash('0');
           navigation.navigate('AccountsList');
 
           break;
 
-        case STATUS.FAILURE:
+        case 'STATUS.FAILURE':
           setHash('0');
           setIsSubmitted(false);
           Alert.alert(
               'Cant add account',
-              operationStatus.error || 'Network error',
+              operation.error || 'Network error',
               [{text: 'OK', onPress: () => console.log('OK Pressed')}],
               {cancelable: false},
           );
           // alert("Cant submit your operation to server");
       }
     }
-  }, [hash, operationStatus]);
+  }, [hash, operation]);
 
   const data: AccountCreateDTO = {
     id: '',

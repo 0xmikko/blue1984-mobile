@@ -1,11 +1,8 @@
 /*
- * Lean tool - hypothesis testing application
- *
- * https://github.com/MikaelLazarev/lean-tool/
- * Copyright (c) 2020. Mikhail Lazarev
- *
+ * Copyright (c) 2020. Mikael Lazarev
  */
 import {Profile, ProfileStatus} from '../../core/profile';
+import {RootState} from "../index";
 
 export const endpoint = '/api/profile/';
 
@@ -15,5 +12,6 @@ export type ProfileActions =
       payload?: Profile;
       error?: boolean;
     }
-  | {type: 'PROFILE_UPDATE_STATUS'; status: ProfileStatus}
-  | {type: 'PROFILE_DELETED_MESSAGES'; payload: boolean};
+  | {type: 'PROFILE_UPDATE_STATUS'; status: ProfileStatus};
+
+export const profileSelector = (state: RootState) => state.profile;

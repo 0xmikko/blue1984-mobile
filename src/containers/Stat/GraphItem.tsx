@@ -1,9 +1,12 @@
+/*
+ * Copyright (c) 2020. Mikael Lazarev
+ */
+
 import {Graph} from "../../core/stat";
 import {Text} from "react-native-elements";
 import {LineChart} from "react-native-chart-kit";
 import {Dimensions, View} from "react-native";
 import React from "react";
-import Loading from "../../components/Loading";
 
 export interface GraphItemProps {
     name: string;

@@ -1,50 +1,76 @@
 /*
- * Lean tool - hypothesis testing application
- *
- * https://github.com/MikaelLazarev/lean-tool/
- * Copyright (c) 2020. Mikhail Lazarev
- *
+ * Copyright (c) 2020. Mikael Lazarev
  */
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {AccountList} from '../../containers/Accounts/ListView';
-import {RootState} from '../../store';
 import actions from '../../store/actions';
-import {DataScreen} from '../../components/DataScreen';
 import {useNavigation} from '@react-navigation/native';
-import {SafeAreaView, SafeAreaViewComponent} from "react-native";
-import { Text } from 'react-native-elements'
+import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import {SearchBar, Text} from 'react-native-elements';
+import {accountsListSelector} from '../../store/accounts';
+import {DataListView} from 'rn-mobile-components';
+import AccountCard from '../../containers/Accounts/AccountCard';
 
-export const AccountsListScreen: React.FC = () => {
+export function AccountsListScreen() : React.ReactElement {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [hash, setHash] = useState('0');
 
-  useEffect(() => {
-    const newHash = Date.now().toString();
-    setHash(newHash);
-    dispatch(actions.accounts.getList(newHash));
-  }, []);
+  const [search, setSearch] = useState('');
 
-  const {data, status} = useSelector((state: RootState) => state.accounts.List);
+  const getList = (opHash: string) =>
+    dispatch(actions.accounts.getList(opHash));
+  const data = useSelector(accountsListSelector);
 
-  console.log("HELLOO!", data, status)
+  const filteredData =
+    search === '' ? data : data.filter((elm) => elm.name.search(search) !== -1);
 
   const onSelect = (id: string) => navigation.navigate('AccountDetails', {id});
 
   if (data.length === 0) {
-    return <SafeAreaView>
-      <Text>You have not added any account.</Text>
-
-    </SafeAreaView>
+    return (
+      <SafeAreaView>
+        <Text>You have not added any account.</Text>
+      </SafeAreaView>
+    );
   }
 
   return (
-      <DataScreen
-        data={data}
-        status={status}
-        component={AccountList}
+    <ScrollView style={styles.container}>
+      <SearchBar
+        placeholder="Type Here..."
+        onChangeText={setSearch}
+        value={search}
+        // lightTheme={true}
+        round={true}
+        inputContainerStyle={{backgroundColor: 'white'}}
+        leftIconContainerStyle={{backgroundColor: 'white'}}
+        rightIconContainerStyle={{backgroundColor: 'white'}}
+        containerStyle={{
+          backgroundColor: 'white',
+          borderWidth: 1,
+          borderRadius: 5,
+        }}
+        placeholderTextColor={'#g5g5g5'}
+      />
+
+      <DataListView
+        data={filteredData}
+        getList={getList}
+        renderItem={AccountCard}
         onSelect={onSelect}
       />
+    </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    marginBottom: 20,
+  },
+  header: {
+    paddingLeft: 20,
+    paddingTop: 20,
+    paddingBottom: 10,
+  },
+});

@@ -1,9 +1,5 @@
 /*
- * Lean tool - hypothesis testing application
- *
- * https://github.com/MikaelLazarev/lean-tool/
- * Copyright (c) 2020. Mikhail Lazarev
- *
+ * Copyright (c) 2020. Mikael Lazarev
  */
 
 import React from 'react';
@@ -16,7 +12,9 @@ interface TweetsFeedWidgetProps {
   data: Tweet[];
 }
 
-export const TweetsFeedWidget: React.FC<TweetsFeedWidgetProps> = ({data}) => {
+export function TweetsFeedWidget({
+  data,
+}: TweetsFeedWidgetProps): React.ReactElement {
   const showDeletedOnly = useSelector(
     (state: RootState) => state.profile.showDeletedTweets,
   );
@@ -31,4 +29,4 @@ export const TweetsFeedWidget: React.FC<TweetsFeedWidgetProps> = ({data}) => {
       ))}
     </>
   );
-};
+}

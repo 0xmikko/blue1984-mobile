@@ -1,75 +1,42 @@
 /*
- * Lean tool - hypothesis testing application
- *
- * https://github.com/MikaelLazarev/lean-tool/
- * Copyright (c) 2020. Mikhail Lazarev
- *
+ * Copyright (c) 2020. Mikael Lazarev
  */
-import React, {useEffect, useState} from "react";
+import React from 'react';
 
-import { useDispatch, useSelector } from "react-redux";
+import {useDispatch, useSelector} from 'react-redux';
 
-import { RootState } from "../../store";
-
-import { DetailsView } from "../../containers/Accounts/DetailsView";
-
-import actions from "../../store/actions";
-import { STATUS } from "../../utils/status";
-import Loading from "../../components/Loading";
-import { getDetailsItem } from "../../store/dataloader";
-import { DataScreen } from "../../components/DataScreen";
-import {AccountsStackParamList} from "./AccountsStack";
+import actions from '../../store/actions';
+import {AccountsStackParamList} from './AccountsStack';
 import {RouteProp, useRoute} from '@react-navigation/native';
+import {accountDetailsSelector} from '../../store/accounts';
+import {DataDetailsView, LoadingView} from 'rn-mobile-components';
+import {DetailsView} from '../../containers/Accounts/DetailsView';
 
 type ContactDetailsScreenRouteProp = RouteProp<
-    AccountsStackParamList,
-    'AccountDetailsScreen'
-    >;
+  AccountsStackParamList,
+  'AccountDetailsScreen'
+>;
 
-export const AccountsDetailsScreen: React.FC = () => {
+export function AccountsDetailsScreen() : React.ReactElement {
   const dispatch = useDispatch();
 
   const route = useRoute<ContactDetailsScreenRouteProp>();
   const {id} = route.params;
 
-  const [hash, setHash] = useState("0");
+  const getDetails = (opHash: string) =>
+    dispatch(actions.accounts.getDetails(id, opHash));
 
+  const data = useSelector(accountDetailsSelector(id));
 
-  useEffect(() => {
-    const newHash = Date.now().toString();
-    setHash(newHash);
-    dispatch(actions.accounts.getDetails(id, newHash));
-  }, [id]);
-
-  const dataItem = useSelector((state: RootState) =>
-    getDetailsItem(state.accounts.Details, id)
-  );
-
-  const operationStatus = useSelector(
-      (state: RootState) => state.operations.data[hash]?.data?.status
-  );
-
-  // TODO: Move status to new Dataloader component
-
-  useEffect(() => {
-    if (hash !== "0") {
-      switch (operationStatus) {
-        case STATUS.SUCCESS:
-          break;
-
-        case STATUS.FAILURE:
-          setHash("0");
-      }
-    }
-  }, [hash, operationStatus]);
-
-  if (!dataItem || !dataItem.data || dataItem.status !== STATUS.SUCCESS) {
-    return <Loading />;
+  if (!data) {
+    return <LoadingView />;
   }
 
-  const { data, status } = dataItem;
-
   return (
-      <DataScreen data={data} status={status} component={DetailsView} />
+    <DataDetailsView
+      data={data}
+      getDetails={getDetails}
+      renderItem={DetailsView}
+    />
   );
 };

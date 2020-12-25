@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2020. Mikael Lazarev
+ */
+
 import React from 'react';
 import {Image, SafeAreaView, StyleSheet, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
@@ -5,18 +9,15 @@ import {useDispatch} from 'react-redux';
 import actions from '../../store/actions';
 import { useNavigation } from '@react-navigation/native';
 
-export const SplashScreen: React.FC = () => {
+export function SplashScreen() : React.ReactElement {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const onStart = async () => {
     dispatch(
-      actions.profile.updateProfile({
-        status: 'READY',
-      }),
+      actions.profile.updateStatus('READY')
     );
 
-    // navigation.navigate('Accounts', { screen: 'AccountsList' });
   };
 
   return (

@@ -1,9 +1,5 @@
 /*
- * Lean tool - hypothesis testing application
- *
- * https://github.com/MikaelLazarev/lean-tool/
- * Copyright (c) 2020. Mikhail Lazarev
- *
+ * Copyright (c) 2020. Mikael Lazarev
  */
 
 import React from 'react';
@@ -17,8 +13,6 @@ interface AccountDetailsProps {
   data: Account;
 }
 
-export const DetailsView: React.FC<AccountDetailsProps> = ({
-  data,
-}: AccountDetailsProps) => {
+export function DetailsView({data}: AccountDetailsProps): React.ReactElement {
   return <InfoTab data={data} />;
-};
+}

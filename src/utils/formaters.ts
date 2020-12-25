@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2020. Mikael Lazarev
+ */
+
 import moment from "moment";
 
 export function numberWithCommas(x: number | undefined) {

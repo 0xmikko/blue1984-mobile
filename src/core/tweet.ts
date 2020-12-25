@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2020. Mikael Lazarev
+ */
+
 // interface URL {
 //   indices: number[];
 //   url: string;

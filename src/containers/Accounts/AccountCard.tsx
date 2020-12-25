@@ -1,8 +1,5 @@
 /*
- *  Buzz Chat - Spam-free decentralized chat
- *
- *  https://github.com/MikaelLazarev/buzzchat
- *  Copyright (c) 2020. Mikhail Lazarev
+ * Copyright (c) 2020. Mikael Lazarev
  */
 
 import React from 'react';
@@ -17,17 +14,17 @@ import {Account} from '../../core/accounts';
 
 interface AccountCardProps {
   data: Account;
-  selectAccount: (id: string) => void;
+  onSelect: (id: string) => void;
 }
 
-export const AccountCard: React.FC<AccountCardProps> = ({
+export function AccountCard({
   data,
-  selectAccount,
-}) => {
+  onSelect,
+}: AccountCardProps): React.ReactElement {
   const title = data.name;
 
   return (
-    <TouchableOpacity onPress={() => selectAccount(data.id.toString())}>
+    <TouchableOpacity onPress={() => onSelect(data.id.toString())}>
       <View style={styles.container}>
         <View>
           <View style={{paddingTop: 3}}>
@@ -41,13 +38,15 @@ export const AccountCard: React.FC<AccountCardProps> = ({
         <View style={styles.textContainer}>
           <View>
             <Text h4>{title}</Text>
-            <Text>{`Cached: ${data.cached || '-'}  Deleted: ${data.deleted || '-'}`}</Text>
+            <Text>{`Cached: ${data.cached || '-'}  Deleted: ${
+              data.deleted || '-'
+            }`}</Text>
           </View>
         </View>
       </View>
     </TouchableOpacity>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

@@ -1,9 +1,5 @@
 /*
- * Lean tool - hypothesis testing application
- *
- * https://github.com/MikaelLazarev/lean-tool/
- * Copyright (c) 2020. Mikhail Lazarev
- *
+ * Copyright (c) 2020. Mikael Lazarev
  */
 
 import React, {useEffect, useState} from 'react';
@@ -17,7 +13,7 @@ interface InfoWidgetProps {
 }
 
 export const InfoWidget: React.FC<InfoWidgetProps> = ({data}) => {
-  if (data === undefined) return <Loading />;
+  if (data === undefined) return <LoadingView />;
 
   return (
     <View>

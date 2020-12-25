@@ -1,8 +1,5 @@
 /*
- *  Buzz Chat - Spam-free decentralized chat
- *
- *  https://github.com/MikaelLazarev/buzzchat
- *  Copyright (c) 2020. Mikhail Lazarev
+ * Copyright (c) 2020. Mikael Lazarev
  */
 
 import React from 'react';
@@ -21,7 +18,7 @@ export type AccountsStackParamList = {
   AccountDetailsScreen: {id: string};
 };
 
-export const AccountsStack: React.FC = () => {
+export function AccountsStack(): React.ReactElement {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -54,7 +51,7 @@ export const AccountsStack: React.FC = () => {
               icon={{
                 name: 'settings',
                 size: 22,
-                  color: "#0674eb"
+                color: '#0674eb',
               }}
               type="clear"
             />
@@ -71,4 +68,4 @@ export const AccountsStack: React.FC = () => {
       />
     </Stack.Navigator>
   );
-};
+}

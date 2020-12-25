@@ -1,8 +1,5 @@
 /*
- *  Buzz Chat - Spam-free decentralized chat
- *
- *  https://github.com/MikaelLazarev/buzzchat
- *  Copyright (c) 2020. Mikhail Lazarev
+ * Copyright (c) 2020. Mikael Lazarev
  */
 
 import React from 'react';
@@ -13,7 +10,7 @@ import {useDispatch} from 'react-redux';
 import { TweetsFeedScreen } from './TweetsFeedScreen';
 const Stack = createStackNavigator();
 
-export const FeedStack: React.FC = () => {
+export function FeedStack() : React.ReactElement {
   const dispatch = useDispatch();
 
   return (

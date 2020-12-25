@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2020. Mikael Lazarev
+ */
+
 import React from "react";
 import { Account } from "../../core/accounts";
 import { Tweet } from "../../core/tweet";

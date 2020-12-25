@@ -1,15 +1,19 @@
 /*
- * Lean tool - hypothesis testing application
- *
- * https://github.com/MikaelLazarev/lean-tool/
- * Copyright (c) 2020. Mikhail Lazarev
- *
+ * Copyright (c) 2020. Mikael Lazarev
  */
 
 import React from 'react';
 import {Tweet} from '../../core/tweet';
 
-import {StyleSheet, View, Text, Image, TouchableOpacity, Alert, Linking} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Alert,
+  Linking,
+} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {toHumanDate} from '../../utils/formaters';
 import Hyperlink from 'react-native-hyperlink';
@@ -18,22 +22,19 @@ interface TweetWidgetProps {
   data: Tweet;
 }
 
-export const TweetWidget: React.FC<TweetWidgetProps> = ({data}) => {
+export function TweetWidget({data}: TweetWidgetProps): React.ReactElement {
   let backColor = '#FFF';
   if (data.wasChanged) backColor = '#b3b37b';
   if (data.wasDeleted) backColor = '#fda7a7';
 
   const alert = () => {
-
     const combinedUrls = new Set<string>();
-    data.urls.forEach(e=> combinedUrls.add(e))
-    data.images.forEach(e=> combinedUrls.add(e));
-    const linksButtons =  Array.from(combinedUrls).map(url => (
-      {
-        text: url,
-            onPress: () => Linking.openURL(url)
-      })
-    )
+    data.urls.forEach((e) => combinedUrls.add(e));
+    data.images.forEach((e) => combinedUrls.add(e));
+    const linksButtons = Array.from(combinedUrls).map((url) => ({
+      text: url,
+      onPress: () => Linking.openURL(url),
+    }));
     Alert.alert(
       'Open link',
       'Select link would you like to open',
@@ -98,9 +99,7 @@ export const TweetWidget: React.FC<TweetWidgetProps> = ({data}) => {
           </View>
 
           <View style={styles.tweetTextContainer}>
-            <Hyperlink
-              onPress={alert}
-              linkStyle={{color: '#2980b9'}}>
+            <Hyperlink onPress={alert} linkStyle={{color: '#2980b9'}}>
               <Text style={styles.tweetText}>{data.text}</Text>
             </Hyperlink>
           </View>
@@ -188,7 +187,7 @@ export const TweetWidget: React.FC<TweetWidgetProps> = ({data}) => {
       </View>
     </View>
   );
-};
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2020. Mikael Lazarev
+ */
+
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
