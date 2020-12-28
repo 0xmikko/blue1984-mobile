@@ -2,10 +2,11 @@
  * Copyright (c) 2020. Mikael Lazarev
  */
 
-import { ACCOUNTS_PREFIX, endpoint } from "./";
-import AsyncStorage from "@react-native-community/async-storage";
+import {ACCOUNTS_PREFIX, endpoint} from './';
+import AsyncStorage from '@react-native-community/async-storage';
 import {
   createDataLoaderDetailActions,
+  getFullUrl,
   journaledOperation,
   LIST_FAILURE,
   LIST_REQUEST,
@@ -13,26 +14,27 @@ import {
   UPLOAD_FAILURE,
   UPLOAD_REQUEST,
   UPLOAD_SUCCESS,
-} from "redux-data-connect";
-import { ThunkAction } from "redux-thunk";
-import { RootState } from "../index";
-import { Action } from "redux";
-import { getFullAPIAddress } from "../../utils/api";
-import { createAction } from "redux-api-middleware";
-import { updateStatus } from "dlt-operations";
+} from 'redux-data-connect';
+import {ThunkAction} from 'redux-thunk';
+import {RootState} from '../index';
+import {Action} from 'redux';
+import {createAction} from 'redux-api-middleware';
+import {updateStatus} from 'dlt-operations';
+import {BACKEND_ADDR} from '../../../config';
 
 export const addNewAccount = (
   id: string,
-  hash: string
+  hash: string,
 ): ThunkAction<void, RootState, unknown, Action<string>> => async (
-  dispatch
+  dispatch,
 ) => {
+  id = id.toLowerCase();
   const action = await dispatch(
     journaledOperation(
       createAction({
         endpoint,
-        method: "POST",
-        body: JSON.stringify({ id }),
+        method: 'POST',
+        body: JSON.stringify({id}),
         headers: {'Content-Type': 'application/json'},
         types: [
           ACCOUNTS_PREFIX + UPLOAD_REQUEST,
@@ -40,17 +42,19 @@ export const addNewAccount = (
           ACCOUNTS_PREFIX + UPLOAD_FAILURE,
         ],
       }),
-      hash
-    )
+      hash,
+    ),
   );
 
   if (action !== undefined && !action.error) {
     const savedAccounts = await getAccountsFromStorage();
     let accountsList = new Set([action.payload.id, ...savedAccounts]);
 
+    console.log('SAVED', savedAccounts);
+
     await AsyncStorage.setItem(
-      "accounts",
-      JSON.stringify(Array.from(accountsList.values()))
+      'accounts',
+      JSON.stringify(Array.from(accountsList.values())),
     );
   }
 
@@ -58,57 +62,65 @@ export const addNewAccount = (
 };
 
 export const getList = (
-  hash: string
+  hash: string,
+  offset?: number,
+  limit?: number,
 ): ThunkAction<void, RootState, unknown, Action<string>> => async (
-  dispatch
+  dispatch,
 ) => {
   const accounts = await getAccountsFromStorage();
 
   const action = await dispatch(
     journaledOperation(
       createAction({
-        endpoint: getFullAPIAddress(endpoint + "list/"),
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ accounts }),
+        endpoint: getFullUrl(endpoint + 'list/', {
+          host: BACKEND_ADDR,
+          params: {
+            offset,
+            limit,
+          },
+        }),
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({accounts}),
         types: [
           ACCOUNTS_PREFIX + LIST_REQUEST,
           ACCOUNTS_PREFIX + LIST_SUCCESS,
           ACCOUNTS_PREFIX + LIST_FAILURE,
         ],
       }),
-      hash
-    )
+      hash,
+    ),
   );
 
   return action;
 };
 
-export const getAccountsFromStorage = async (): Promise<string[]> => {
+export async function getAccountsFromStorage(): Promise<string[]> {
   let accountsList: string[] = [];
   //localStorage.clear();
-  const savedAccountsStr = await AsyncStorage.getItem("accounts");
+  const savedAccountsStr = await AsyncStorage.getItem('accounts');
 
   if (savedAccountsStr !== null) {
     const savedAccounts: string[] = JSON.parse(savedAccountsStr);
     accountsList = savedAccounts;
   }
   return accountsList;
-};
+}
 
 export const getDetails = createDataLoaderDetailActions(
-  endpoint + ":id/",
-  ACCOUNTS_PREFIX
+  endpoint + ':id/',
+  ACCOUNTS_PREFIX,
 );
 
 export const removeAccount = (
   id: string,
-  hash?: string
+  hash?: string,
 ): ThunkAction<void, RootState, unknown, Action<string>> => async (
-  dispatch
+  dispatch,
 ) => {
   const savedAccounts = await getAccountsFromStorage();
   const accountsList = savedAccounts.filter((e) => e !== id);
-  await AsyncStorage.setItem("accounts", JSON.stringify(accountsList));
-  dispatch(updateStatus(hash || "0", "STATUS.SUCCESS"));
+  await AsyncStorage.setItem('accounts', JSON.stringify(accountsList));
+  dispatch(updateStatus(hash || '0', 'STATUS.SUCCESS'));
 };

@@ -4,13 +4,13 @@
 
 import { combineReducers } from "redux";
 import accounts from './accounts/reducer'
-import profile from './profile/reducer'
+import app from './app/reducer'
 import tweets from "./tweets/reducer";
 import {operationReducer} from 'dlt-operations'
 
 export default combineReducers({
   accounts,
+  app,
   operations: operationReducer,
-  profile,
   tweets,
 });

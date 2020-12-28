@@ -21,8 +21,6 @@ import {theme} from './styles';
 import {Router} from './src/screens/Router';
 import {NavigationContainer} from '@react-navigation/native';
 
-declare const global: {HermesInternal: null | {}};
-
 const store = configureStore();
 
 const App = () => {

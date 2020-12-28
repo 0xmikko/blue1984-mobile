@@ -30,7 +30,7 @@ export function AccountCard({
           <View style={{paddingTop: 3}}>
             <Avatar
               rounded
-              source={{uri: data.profileImage}}
+              source={{uri: data.profile_image_url}}
               renderPlaceholderContent={<ActivityIndicator />}
             />
           </View>

@@ -2,15 +2,14 @@
  * Copyright (c) 2020. Mikael Lazarev
  */
 
-import React from "react";
-import * as yup from "yup";
+import React from 'react';
+import * as yup from 'yup';
 import {
   FormikForm,
   FormikFormViewProps,
-} from "../../components/Forms/FormikForm";
-import { AccountCreateDTO} from "../../core/accounts";
-import { Loading } from "../../components/Loading";
-
+  LoadingView,
+} from 'rn-mobile-components';
+import {AccountCreateDTO} from '../../core/accounts';
 
 const formSchema = yup.object({
   id: yup.string().required().min(3),
@@ -18,27 +17,27 @@ const formSchema = yup.object({
 
 interface FormViewProfileProps extends FormikFormViewProps<AccountCreateDTO> {}
 
-export const FormView: React.FC<FormViewProfileProps> = ({
+export function FormView({
   data,
   onSubmit,
   isSubmitted,
-}) => {
-
-
-  const fields = {
-    id: {
-    },
-  };
-
+}: FormViewProfileProps): React.ReactElement {
   if (!data) return <LoadingView />;
 
+  const fields = {
+    id: {},
+  };
+
+  const onSubmitH = (data: Record<string, string>) => {
+    onSubmit((data as unknown) as AccountCreateDTO);
+  };
   return (
     <FormikForm
       formSchema={formSchema}
       fields={fields}
-      initialValues={data}
-      onSubmit={onSubmit}
+      initialValues={(data as unknown) as Record<string, string>}
+      onSubmit={onSubmitH}
       isSubmitted={isSubmitted}
     />
   );
-};
+}

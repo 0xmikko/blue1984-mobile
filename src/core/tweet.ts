@@ -2,38 +2,17 @@
  * Copyright (c) 2020. Mikael Lazarev
  */
 
-// interface URL {
-//   indices: number[];
-//   url: string;
-// }
-
-interface User {
-  avatar: string,
-  nickname: string,
-  name: string,
-}
+import {TwitterAccount} from './accounts';
 
 export interface Tweet {
   id: string;
-  user?: User;
-  screenName: string;
   text: string;
+  created_at: string;
+  author?: TwitterAccount;
+
   time: string;
-  isPinned: boolean;
-  isReplyTo: boolean;
-  isRetweet: boolean;
   urls: string[];
   hashtags: string[];
   images: string[];
-  favoriteCount: number;
-  replyCount: number;
-  retweetCount: number;
-  wasChanged: boolean;
   wasDeleted: boolean;
-}
-
-
-export interface TweetsFeed {
-  id: string;
-  data: Tweet[];
 }

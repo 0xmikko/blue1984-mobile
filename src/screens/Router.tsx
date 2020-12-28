@@ -10,23 +10,23 @@ import {AccountsStack} from './Accounts/AccountsStack';
 import {useDispatch, useSelector} from 'react-redux';
 import actions from '../store/actions';
 import {WelcomeStack} from './Welcome/WelcomeStack';
-import {FeedStack} from './Tweets/FeedStack';
-import {profileSelector} from '../store/profile';
+import {FeedStack} from './Feed/FeedStack';
+import {appSelector} from '../store/app';
 
 const Tab = createBottomTabNavigator();
 
 const tabIcons: Record<string, string> = {
-  Feed: 'ios-person',
-  Accounts: 'ios-chatbubbles',
+  Feed: 'ios-chatbubbles',
+  Accounts: 'ios-people' ,
 };
 
 export const Router = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(actions.profile.getProfile());
-  });
+    dispatch(actions.profile.getApp());
+  }, []);
 
-  const {status} = useSelector(profileSelector);
+  const {status} = useSelector(appSelector);
 
   switch (status) {
     default:

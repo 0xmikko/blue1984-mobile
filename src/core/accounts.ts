@@ -2,34 +2,20 @@
  * Copyright (c) 2020. Mikael Lazarev
  */
 
-import {Tweet} from "./tweet";
-
-export interface Account {
+export interface TwitterAccount {
   id: string;
+  username: string;
+  name: string;
+  profile_image_url?: string;
+  description: string;
+}
+
+export interface Account extends TwitterAccount {
   bluID: string;
   deleted?: number;
   changed?: number;
   cached?: number;
   lastCached?: string;
-
-  screenName: string;
-  profileImage: string;
-  backgroundImage: string;
-
-  name: string;
-  bio: string;
-  userMentions: string[];
-  hashtags: string[];
-  urls: [];
-  location: string;
-  url: string;
-  joinDate: string;
-  tweetCount: number;
-  followingCount: number;
-  followerCount: number;
-  likeCount: number;
-
-  tweets?: Tweet[];
 }
 
 export interface AccountCreateDTO {

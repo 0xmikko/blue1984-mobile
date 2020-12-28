@@ -1,84 +1,30 @@
 /*
  * Copyright (c) 2020. Mikael Lazarev
  */
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Text} from 'react-native-elements';
 import {useDispatch, useSelector} from 'react-redux';
-
-import {FormView} from '../../containers/Accounts/FormView';
-
-import {STATUS} from '../../utils/status';
-import {RootState} from '../../store';
-import {Account, AccountCreateDTO} from '../../core/accounts';
+import {AccountCreateDTO} from '../../core/accounts';
 
 import actions from '../../store/actions';
 import {useNavigation} from '@react-navigation/native';
 import {Alert, SafeAreaView, StyleSheet} from 'react-native';
-import {operationSelector} from "dlt-operations";
+import {operationSelector} from 'dlt-operations';
+import {DataFormView} from 'rn-mobile-components';
+import {FormView} from '../../containers/Accounts/FormView';
 
-export function AccountsNewScreen() : React.ReactElement {
+export function AccountsNewScreen(): React.ReactElement {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [hash, setHash] = useState('0');
-  const [waitForList, setWaitForList] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const operation = useSelector(operationSelector(hash));
-
-  // TODO: Move status to new Dataloader component
-
-  useEffect(() => {
-    if (hash !== '0' && !waitForList) {
-      switch (operation?.status) {
-        case 'STATUS.SUCCESS':
-          const newHash = Date.now().toString();
-          setHash(newHash);
-
-          dispatch(actions.accounts.getList(newHash));
-          setWaitForList(true);
-
-          break;
-
-        case 'STATUS.FAILURE':
-          setHash('0');
-          setIsSubmitted(false);
-          Alert.alert(
-              'Cant add account',
-              operation.error || 'Network error',
-              [{text: 'OK', onPress: () => console.log('OK Pressed')}],
-              {cancelable: false},
-          );
-          // alert("Cant submit your operation to server");
-      }
-    }
-
-    if (hash !== '0' && waitForList) {
-      switch (operation?.status) {
-        case 'STATUS.SUCCESS':
-          setHash('0');
-          navigation.navigate('AccountsList');
-
-          break;
-
-        case 'STATUS.FAILURE':
-          setHash('0');
-          setIsSubmitted(false);
-          Alert.alert(
-              'Cant add account',
-              operation.error || 'Network error',
-              [{text: 'OK', onPress: () => console.log('OK Pressed')}],
-              {cancelable: false},
-          );
-          // alert("Cant submit your operation to server");
-      }
-    }
-  }, [hash, operation]);
 
   const data: AccountCreateDTO = {
     id: '',
   };
+
   const onSubmit = (values: AccountCreateDTO) => {
-    setIsSubmitted(true);
     const newHash = Date.now().toString();
     setHash(newHash);
 
@@ -86,22 +32,45 @@ export function AccountsNewScreen() : React.ReactElement {
     dispatch(actions.accounts.addNewAccount(values.id, newHash));
   };
 
+  const onSuccess = () => {
+    navigation.navigate('AccountsList');
+  };
+
+  const onFailure = () => {
+    setHash('0');
+    Alert.alert(
+      'Cant add account',
+      operation.error || 'Network error',
+      [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+      {cancelable: false},
+    );
+  };
+
+
   return (
-      <SafeAreaView style={styles.container}>
-        <Text
-            style={{
-              fontSize: 18,
-              fontWeight: 'bold',
-              color: '#687882',
-              marginTop: 55,
-              marginBottom: 15,
-            }}>
-          Enter a valid Twitter account
-        </Text>
-        <FormView data={data} onSubmit={onSubmit} isSubmitted={isSubmitted} />
-      </SafeAreaView>
+    <SafeAreaView style={styles.container}>
+      <Text
+        style={{
+          fontSize: 18,
+          fontWeight: 'bold',
+          color: '#687882',
+          marginTop: 55,
+          marginBottom: 15,
+        }}>
+        Enter a valid Twitter account
+      </Text>
+      <DataFormView
+        data={data}
+        onSubmit={onSubmit}
+        dataIsLoaded={true}
+        saveOperation={operation}
+        component={FormView}
+        onSuccess={onSuccess}
+        onFailure={onFailure}
+      />
+    </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

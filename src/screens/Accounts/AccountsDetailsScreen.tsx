@@ -9,7 +9,7 @@ import actions from '../../store/actions';
 import {AccountsStackParamList} from './AccountsStack';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {accountDetailsSelector} from '../../store/accounts';
-import {DataDetailsView, LoadingView} from 'rn-mobile-components';
+import {DataDetailsView} from 'rn-mobile-components';
 import {DetailsView} from '../../containers/Accounts/DetailsView';
 
 type ContactDetailsScreenRouteProp = RouteProp<
@@ -17,20 +17,17 @@ type ContactDetailsScreenRouteProp = RouteProp<
   'AccountDetailsScreen'
 >;
 
-export function AccountsDetailsScreen() : React.ReactElement {
+export function AccountsDetailsScreen(): React.ReactElement {
   const dispatch = useDispatch();
-
   const route = useRoute<ContactDetailsScreenRouteProp>();
   const {id} = route.params;
+
+  console.log('ID', id);
 
   const getDetails = (opHash: string) =>
     dispatch(actions.accounts.getDetails(id, opHash));
 
   const data = useSelector(accountDetailsSelector(id));
-
-  if (!data) {
-    return <LoadingView />;
-  }
 
   return (
     <DataDetailsView
@@ -39,4 +36,4 @@ export function AccountsDetailsScreen() : React.ReactElement {
       renderItem={DetailsView}
     />
   );
-};
+}

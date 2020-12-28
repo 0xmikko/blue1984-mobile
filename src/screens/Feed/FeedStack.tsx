@@ -7,7 +7,7 @@ import {Button} from 'react-native-elements';
 import {createStackNavigator} from '@react-navigation/stack';
 import {showDeletedFilterModal} from '../../containers/Tweets/DeletedTweetsModal';
 import {useDispatch} from 'react-redux';
-import { TweetsFeedScreen } from './TweetsFeedScreen';
+import { FeedScreen } from './FeedScreen';
 const Stack = createStackNavigator();
 
 export function FeedStack() : React.ReactElement {
@@ -17,7 +17,7 @@ export function FeedStack() : React.ReactElement {
     <Stack.Navigator>
       <Stack.Screen
         name="Feed"
-        component={TweetsFeedScreen}
+        component={FeedScreen}
         options={{
           headerRight: () => (
             <Button
