@@ -5912,10 +5912,10 @@ rimraf@~2.2.6:
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.2.8.tgz#e439be2aaee327321952730f99a8929e4fc50582"
   integrity sha1-5Dm+Kq7jJzIZUnMPmaiSnk/FBYI=
 
-rn-mobile-components@^1.1.14:
-  version "1.1.14"
-  resolved "https://registry.yarnpkg.com/rn-mobile-components/-/rn-mobile-components-1.1.14.tgz#03e20f63a9e8cc5352db99ea5239032238f9c9f9"
-  integrity sha512-CU9ouS7DXbEwtS4RvN7/QhdGFnOnAvjmpWeG8TxIUcjsfsnMBuQFc2sQM3NbldBQX4Rwryio6FTidIEgtYWBVg==
+rn-mobile-components@^1.1.15:
+  version "1.1.15"
+  resolved "https://registry.yarnpkg.com/rn-mobile-components/-/rn-mobile-components-1.1.15.tgz#94f710e50fb15f03c08a6bfe78c07a25ae3fd49b"
+  integrity sha512-gL/FtgC5PD1u/H0/XLEG4hwwf9qJQUAFiRFBjNsgY20CnZMOK+9DsHRgz49et5aWIz0lcZxOZFU+KWJgq4SudA==
   dependencies:
     formik "^2.1.4"
     yup "^0.28.4"
