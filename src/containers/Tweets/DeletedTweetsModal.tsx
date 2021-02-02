@@ -17,11 +17,11 @@ export const showDeletedFilterModal = (
     [
       {
         text: 'Show all messages',
-        onPress: () => dispatch(actions.profile.setMessagesFilter(false)),
+        onPress: () => dispatch(actions.app.setMessagesFilter(false)),
       },
       {
         text: 'Show deleted messages only',
-        onPress: () => dispatch(actions.profile.setMessagesFilter(true)),
+        onPress: () => dispatch(actions.app.setMessagesFilter(true)),
       },
       {
         text: 'Cancel',

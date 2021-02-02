@@ -56,6 +56,7 @@ export function AccountsStack(): React.ReactElement {
               type="clear"
             />
           ),
+          title: 'Loading...',
         }}
       />
       <Stack.Screen

@@ -23,7 +23,7 @@ const tabIcons: Record<string, string> = {
 export const Router = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(actions.profile.getApp());
+    dispatch(actions.app.getApp());
   }, []);
 
   const {status} = useSelector(appSelector);

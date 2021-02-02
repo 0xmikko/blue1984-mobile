@@ -24,7 +24,6 @@ interface TweetWidgetProps {
 
 export function TweetCard({data}: TweetWidgetProps): React.ReactElement {
   let backColor = '#FFF';
-  if (data.wasChanged) backColor = '#b3b37b';
   if (data.wasDeleted) backColor = '#fda7a7';
 
   const alert = () => {

@@ -15,7 +15,7 @@ export function SplashScreen() : React.ReactElement {
 
   const onStart = async () => {
     dispatch(
-      actions.profile.updateStatus('READY')
+      actions.app.updateStatus('READY')
     );
 
   };
