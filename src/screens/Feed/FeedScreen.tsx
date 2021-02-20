@@ -2,13 +2,12 @@
  * Copyright (c) 2020. Mikael Lazarev
  */
 import React from 'react';
-import {useSelector} from 'react-redux';
-import {accountsListSelector} from "../../store/accounts";
 import {FeedWidget} from "../../containers/Tweets/FeedWidget";
+import {useAccounts} from "../../store/accounts/hook";
 
 export function FeedScreen(): React.ReactElement {
 
-  const accounts = useSelector(accountsListSelector);
+  const accounts = useAccounts();
   const accountsId = accounts.map(a => a.id);
 
   return (

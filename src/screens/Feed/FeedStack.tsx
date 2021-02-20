@@ -35,4 +35,4 @@ export function FeedStack() : React.ReactElement {
 
     </Stack.Navigator>
   );
-};
+}

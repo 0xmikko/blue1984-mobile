@@ -34,7 +34,7 @@ export const updateApp = (
 ): ThunkAction<void, RootState, unknown, AppActions> => async (
   dispatch,
 ) => {
-  await AsyncStorage.setItem('app', JSON.stringify(app));
+ await AsyncStorage.setItem('app', JSON.stringify(app));
   dispatch({
     type: 'APP_SUCCESS',
     payload: app,

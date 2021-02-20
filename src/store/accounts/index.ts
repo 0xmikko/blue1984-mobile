@@ -4,7 +4,7 @@
 // HYPOTHESES
 import { RootState } from "../index";
 import {getFullUrl} from "redux-data-connect";
-import {BACKEND_ADDR} from "../../../config";
+import {BACKEND_ADDR} from "../../config";
 
 export const ACCOUNTS_PREFIX = "ACCOUNTS@@";
 export const endpoint = getFullUrl("/api/accounts/", {host: BACKEND_ADDR});

@@ -6,12 +6,12 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import actions from '../../store/actions';
-import {tweetsListSelector} from '../../store/tweets';
 import {appSelector} from '../../store/app';
 import {View} from 'react-native';
 import {Text} from 'react-native-elements';
 import {DataListView} from 'rn-mobile-components';
 import {TweetCard} from './TweetCard';
+import {useTweets} from "../../store/tweets/hook";
 
 export interface FeedWidgetProps {
   accounts: Array<string>;
@@ -27,13 +27,17 @@ export function FeedWidget({
   const [offset, setOffset] = useState(0);
   const limit = 50;
 
-  const data = useSelector(tweetsListSelector);
+  const data = useTweets();
   const {showDeletedTweets} = useSelector(appSelector);
 
   useEffect(() => {
     const titleDeletedSuffix = showDeletedTweets ? ': [DELETED]' : '';
     navigation.setOptions({headerTitle: title + titleDeletedSuffix});
   }, [showDeletedTweets]);
+
+  useEffect(() => {
+    getList("newacc");
+  }, [accounts])
 
   const getList = (opHash: string) =>
     dispatch(actions.tweets.getFeed(accounts, opHash, 0, limit));

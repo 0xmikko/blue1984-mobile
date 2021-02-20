@@ -40,7 +40,7 @@ export function SplashScreen() : React.ReactElement {
 
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

@@ -5,7 +5,7 @@ import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import actions from '../../store/actions';
 import {useNavigation} from '@react-navigation/native';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-elements';
 import {accountsListSelector} from '../../store/accounts';
 import {DataListView} from 'rn-mobile-components';

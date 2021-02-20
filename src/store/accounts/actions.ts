@@ -3,7 +3,6 @@
  */
 
 import {ACCOUNTS_PREFIX, endpoint} from './';
-import AsyncStorage from '@react-native-community/async-storage';
 import {
   createDataLoaderDetailActions,
   getFullUrl,
@@ -20,7 +19,9 @@ import {RootState} from '../index';
 import {Action} from 'redux';
 import {createAction} from 'redux-api-middleware';
 import {updateStatus} from 'dlt-operations';
-import {BACKEND_ADDR} from '../../../config';
+import {BACKEND_ADDR} from '../../config';
+import AsyncStorage from '@react-native-community/async-storage';
+import {array} from "yup";
 
 export const addNewAccount = (
   id: string,
@@ -50,12 +51,12 @@ export const addNewAccount = (
     const savedAccounts = await getAccountsFromStorage();
     let accountsList = new Set([action.payload.id, ...savedAccounts]);
 
-    console.log('SAVED', savedAccounts);
+    console.log('SAVED', action, accountsList);
 
-    await AsyncStorage.setItem(
-      'accounts',
-      JSON.stringify(Array.from(accountsList.values())),
-    );
+      await AsyncStorage.setItem(
+          'accounts',
+          JSON.stringify(Array.from(accountsList.values())),
+      );
   }
 
   dispatch(getList(hash));
@@ -103,8 +104,9 @@ export async function getAccountsFromStorage(): Promise<string[]> {
 
   if (savedAccountsStr !== null) {
     const savedAccounts: string[] = JSON.parse(savedAccountsStr);
-    accountsList = savedAccounts;
+    if (Array.isArray(savedAccounts))  accountsList = savedAccounts;
   }
+
   return accountsList;
 }
 
@@ -115,12 +117,13 @@ export const getDetails = createDataLoaderDetailActions(
 
 export const removeAccount = (
   id: string,
-  hash?: string,
+  hash: string = '0',
 ): ThunkAction<void, RootState, unknown, Action<string>> => async (
   dispatch,
 ) => {
   const savedAccounts = await getAccountsFromStorage();
   const accountsList = savedAccounts.filter((e) => e !== id);
   await AsyncStorage.setItem('accounts', JSON.stringify(accountsList));
+  dispatch(getList(hash));
   dispatch(updateStatus(hash || '0', 'STATUS.SUCCESS'));
 };

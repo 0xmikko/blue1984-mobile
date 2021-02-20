@@ -5,16 +5,8 @@
 import React from 'react';
 import {Tweet} from '../../core/tweet';
 
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  Alert,
-  Linking,
-} from 'react-native';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import {ActivityIndicator, Alert, Linking, StyleSheet, Text, View} from 'react-native';
+import {Avatar, Image} from 'react-native-elements';
 import {toHumanDate} from '../../utils/formaters';
 import Hyperlink from 'react-native-hyperlink';
 
@@ -28,8 +20,8 @@ export function TweetCard({data}: TweetWidgetProps): React.ReactElement {
 
   const alert = () => {
     const combinedUrls = new Set<string>();
-    data.urls.forEach((e) => combinedUrls.add(e));
-    data.images.forEach((e) => combinedUrls.add(e));
+    data?.entities?.urls?.forEach((e) => combinedUrls.add(e.url));
+    data?.media?.forEach((e) => combinedUrls.add(e.url));
     const linksButtons = Array.from(combinedUrls).map((url) => ({
       text: url,
       onPress: () => Linking.openURL(url),
@@ -50,38 +42,19 @@ export function TweetCard({data}: TweetWidgetProps): React.ReactElement {
     );
   };
 
+
   return (
     <View
       key={data.id}
       style={{...styles.container, backgroundColor: backColor}}>
-      {/*{!data.isReplyTo ? (*/}
-      {/*  <View style={styles.isReplyContainer}>*/}
-      {/*    <View*/}
-      {/*      style={{*/}
-      {/*        flex: 0.23,*/}
-      {/*        borderColor: 'red',*/}
-      {/*        borderWidth: 0,*/}
-      {/*        alignItems: 'flex-end',*/}
-      {/*      }}>*/}
-      {/*      <EvilIcons*/}
-      {/*        name={'retweet'}*/}
-      {/*        size={25}*/}
-      {/*        color={'rgb(136, 153, 166)'}*/}
-      {/*      />*/}
-      {/*    </View>*/}
-      {/*    <Text style={{flex: 0.5, color: 'rgb(136, 153, 166)'}}>*/}
-      {/*      {data.isRetweet} Retweeted*/}
-      {/*    </Text>*/}
-      {/*  </View>*/}
-      {/*) : (*/}
-      {/*  true*/}
-      {/*)}*/}
+
       <View style={styles.innerContainer}>
-        <View style={styles.photoContainer}>
-          <View style={styles.innerPhotoContainer}>
-            <Image
-              source={{uri: data.author?.profile_image_url}}
-              style={styles.photo}
+        <View>
+          <View style={{paddingTop: 15, paddingLeft: 8}}>
+            <Avatar
+                rounded
+                source={{uri: data?.author?.profile_image_url}}
+                renderPlaceholderContent={<ActivityIndicator />}
             />
           </View>
         </View>
@@ -100,8 +73,20 @@ export function TweetCard({data}: TweetWidgetProps): React.ReactElement {
               <Text style={styles.tweetText}>{data.text}</Text>
             </Hyperlink>
           </View>
+          {data?.media?.length > 0 ? (
+              <View style={styles.photo}>
+              <Image
+                  source={{uri: data?.media[0].url}}
+                  style={{width: 200, height: 80}}
+              />
+              </View>
+          ) : (
+              <View />
+          )}
         </View>
+
       </View>
+
     </View>
   );
 }
@@ -140,10 +125,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   photo: {
-    width: 50,
-    height: 50,
-    borderRadius: 50,
-    marginTop: 15,
+    marginTop: -5,
+    marginBottom: 5,
   },
   info: {
     flex: 0.82,

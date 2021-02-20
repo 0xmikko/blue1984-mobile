@@ -22,8 +22,6 @@ export function AccountsDetailsScreen(): React.ReactElement {
   const route = useRoute<ContactDetailsScreenRouteProp>();
   const {id} = route.params;
 
-  console.log('ID', id);
-
   const getDetails = (opHash: string) =>
     dispatch(actions.accounts.getDetails(id, opHash));
 
