@@ -22,7 +22,7 @@
     "@types/uuid": "^7.0.3",
     "dlt-operations": "^0.0.3",
     "formik": "^2.1.4",
-    "moment": "^2.26.0",
+    "moment": "^2.29.2",
     "react": "16.11.0",
     "react-native": "0.62.2",
     "react-native-elements": "^1.2.7",
